@@ -13,6 +13,11 @@
 # TODO: Add help command
 # TODO: Refactor everything into functions
 # TODO: Read the article about best practices in bash and implement it here.
+# TODO: Add directory structure (src, test, dist)
+# TODO: Change to use cammel case standard 
+# TODO: Add function to add another module, similar to hugo
+# TODO: Add ifdef clausulles 
+# TODO: modify utest library to use errorMessage variable to print messages
 
 PROJECT_NAME=$1
 MODULE_NAME=$2
@@ -108,7 +113,7 @@ int main(int argc, char **argv) {
   echo "test_${MODULE_NAME}: clean"
   echo -e "\t gcc -c ${MODULE_NAME}.c"
   echo -e "\t gcc -c test_${MODULE_NAME}.c"
-  echo -e "\t gcc -o test_${MODULE_NAME} ${MODULE_NAME}.o test_${MODULE_NAME}.o"
+  echo -e "\t gcc -o test_${MODULE_NAME}.exe ${MODULE_NAME}.o test_${MODULE_NAME}.o"
   echo -e "\t ./test_${MODULE_NAME}"
   echo ""
 
@@ -116,13 +121,13 @@ int main(int argc, char **argv) {
   echo ""
 
   echo "clean:"
-  echo -e "\t rm *.out || exit 0"
+  echo -e "\t rm *.out *.o *.exe || exit 0"
   echo ""
 
   echo "run:"
   echo -e "\t gcc -c ${MODULE_NAME}.c"
   echo -e "\t gcc -c main.c"
-  echo -e "\t gcc -o main ${MODULE_NAME}.o main.o"
+  echo -e "\t gcc -o main.exe ${MODULE_NAME}.o main.o"
   echo -e "\t ./main"
 
 } > Makefile
