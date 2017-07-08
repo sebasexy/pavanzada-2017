@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
   echo -e "\t gcc -c ${MODULE_NAME}.c"
   echo -e "\t gcc -c test_${MODULE_NAME}.c"
   echo -e "\t gcc -o test_${MODULE_NAME}.exe ${MODULE_NAME}.o test_${MODULE_NAME}.o"
-  echo -e "\t ./test_${MODULE_NAME}"
+  echo -e "\t ./test_${MODULE_NAME}.exe"
   echo ""
 
   echo -e "test:\t test_${MODULE_NAME}"
