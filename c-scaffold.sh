@@ -134,10 +134,10 @@ int main(int argc, char **argv) {
 
 {
   echo '/* file: minunit.h */'
-  echo '#define mu_assert(message, test) do { if (!(test)) return message; } while (0)'
-  echo '#define mu_run_test(test) do { char *message = test(); tests_run++; \'
+  echo '#define muAssert(message, test) do { if (!(test)) return message; } while (0)'
+  echo '#define muRunTest(test) do { char *message = test(); tests_run++; \'
   echo 'if (message) return message; } while (0)'
-  echo 'extern int tests_run;'
+  echo 'extern int testsRun;'
 } >  minunit.h
 
 {
@@ -155,23 +155,23 @@ int main(int argc, char **argv) {
   echo '#define KWHT  "\x1B[37m"'
   echo '#define RESET "\033[0m"'
   echo ""
-  echo 'int tests_run = 0;'
+  echo 'int testsRun = 0;'
 
   echo ""
-  echo 'static char * test_unit() {'
-  echo '  mu_assert("error, test_unit 1 != 1", 1 == 1);'
+  echo 'static char * testUnit() {'
+  echo '  muAssert("error, testUnit 1 != 1", 1 == 1);'
   echo '  return 0;'
   echo '}'
 
   echo ""
-  echo 'static char * all_tests() {'
-  echo '  mu_run_test(test_unit);'
+  echo 'static char * allTests() {'
+  echo '  muRunTest(testUnit);'
   echo '  return 0;'
   echo '}'
 
   echo ""
   echo 'int main(int argc, char **argv) {'
-  echo '  char *result = all_tests();'
+  echo '  char *result = allTests();'
   echo '  if (result != 0) {'
   echo '    printf("-_-_-_-_-_-_-_,------,      o \n");'
   echo '    printf("_-_-_-_-_-_-_-|   /\\_/\\ \n");'
@@ -186,7 +186,7 @@ int main(int argc, char **argv) {
   echo '    printf("_-_-_-_-_-_-_-  \"\"  \"\" \n");'
   echo '    printf(KGRN " ✓ ALL TESTS PASSED \n" RESET);'
   echo '  }'
-  echo '  printf("Tests run: %d\n", tests_run);'
+  echo '  printf("Tests run: %d\n", testsRun);'
   echo '  return result != 0;'
   echo '}'
 
