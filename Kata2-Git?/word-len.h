@@ -1,0 +1,1 @@
+int getWordLen(char* );
