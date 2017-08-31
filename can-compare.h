@@ -1,0 +1,1 @@
+int canCompare(char *, char *);
