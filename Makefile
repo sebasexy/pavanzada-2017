@@ -19,3 +19,4 @@ run:
 	 gcc -c main.c
 	 gcc -o main.exe can-compare.o main.o
 	 ./main
+#f

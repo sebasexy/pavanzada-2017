@@ -1,6 +1,6 @@
 
 # kata3-f
-
+#g
 # How to compile
 make run
 
@@ -28,4 +28,3 @@ gcc -c module1.c # This command generates module1.o
 gcc -c program-that-depends-of-module1.c
 gcc -o program.out module1.o program-that-depends-of-module1.o
 ./program.out
-
