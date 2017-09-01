@@ -16,7 +16,7 @@ int testsRun = 0;
 
 static char * testUnit() {
   char* a = "hello world ";
-  char* b = "olleh roldw";
+  char* b = "olleh orlwd";
   int expected = 1;
   int result = canCompare(a, b);
   muAssert("It should return 1 = true", expected == result);
