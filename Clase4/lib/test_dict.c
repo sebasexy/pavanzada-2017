@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 #include "minunit.h"
-#include "can-compare.h"
-//h
+#include "dict.h"
+
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"
@@ -14,17 +15,31 @@
 
 int testsRun = 0;
 
-static char * testUnit() {
-  char* a = "hello world ";
-  char* b = "olleh orlwd";
-  int expected = 1;
-  int result = canCompare(a, b);
-  muAssert("It should return 1 = true", expected == result);
+static char * testInitDictionary() {
+  unsigned int size = 4;
+  int errorCode;
+  Dict *myDictionary = initDictionary(size, &errorCode);
+  muAssert("myDictionary size must be 4", myDictionary->size == 4);
+  muAssert("myDictionary errCode must be 0", errorCode == 0);
+//  unsigned int expected =
+  return 0;
+}
+static char * testUpsertDictionary(){
+  unsigned int size = 1;
+  int errorCode;
+  Dict *myDictionary = initDictionary(size, &errorCode);
+  int value = 1;
+  upsertDictionary(myDictionary, "uno", (void *) &value, &errorCode);
+
+  muAssert("myDictionary errorCode must be 0", errorCode == 0);
+  muAssert("myDictionary errorCode must be 0", strcmp(myDictionary->elements[0].key, "uno") == 0);
+  muAssert("myDictionary errorCode must be 0", *((int *)myDictionary->elements[0].value) == value);
   return 0;
 }
 
 static char * allTests() {
-  muRunTest(testUnit);
+  muRunTest(testInitDictionary);
+  muRunTest(testUpsertDictionary);
   return 0;
 }
 
