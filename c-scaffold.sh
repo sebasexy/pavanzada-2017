@@ -135,7 +135,7 @@ int main(int argc, char **argv) {
 {
   echo '/* file: minunit.h */'
   echo '#define muAssert(message, test) do { if (!(test)) return message; } while (0)'
-  echo '#define muRunTest(test) do { char *message = test(); tests_run++; \'
+  echo '#define muRunTest(test) do { char *message = test(); testsRun++; \'
   echo 'if (message) return message; } while (0)'
   echo 'extern int testsRun;'
 } >  minunit.h
