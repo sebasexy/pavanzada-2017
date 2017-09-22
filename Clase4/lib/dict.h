@@ -11,4 +11,5 @@ typedef struct dict {
 Dict * initDictionary(unsigned int, int *);
 
 
-void upsertDictionary(Dict *, char *, void *, int *);
+void upsertDictionary(Dict *, char *, void *, int, int *);
+void *getDictionary(Dict *, char *, int, int *);
