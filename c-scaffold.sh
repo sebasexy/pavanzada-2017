@@ -40,12 +40,14 @@ if [[ -d "${CURRENT_DIRECTORY}/${PROJECT_NAME}" ]]; then
 fi
 
 mkdir "${CURRENT_DIRECTORY}/${PROJECT_NAME}"
+mkdir "${CURRENT_DIRECTORY}/${PROJECT_NAME}/lib"
 
 cd "${CURRENT_DIRECTORY}/${PROJECT_NAME}"
 
 touch "${MODULE_NAME}".c
 touch "${MODULE_NAME}".h
 touch minunit.h
+touch integrationtest.tcl
 touch test_${MODULE_NAME}.c
 touch Makefile
 touch main.c
@@ -100,14 +102,39 @@ int main(int argc, char **argv) {
   return 0;
 }" > main.c
 
+##integration test
+echo "#!/usr/bin/expect -f
+# For colors
+proc capability cap {expr {![catch {exec tput -S << \$cap}]}}
+proc colorterm {} {expr {[capability setaf] && [capability setab]}}
+proc tput args {exec tput -S << \$args >/dev/tty}
+array set color {black 0 red 1 green 2 yellow 3 blue 4 magenta 5 cyan 6 white 7}
+proc foreground x {exec tput -S << \"setaf $::color(\$x)\" > /dev/tty}
+proc background x {exec tput -S << \"setab $::color(\$x)\" > /dev/tty}
+proc reset {} {exec tput sgr0 > /dev/tty}
+
+
+#Put your test case here
+eval spawn [lrange \$argv 0 end]
+
+expect \"Hello from main\" {foreground green; puts \"PASSED\";reset} default {foreground red;puts \"FAILED\";reset}
+
+#expect \"What is the id:\" {foreground green; puts \"PASSED\";reset} default {foreground red;puts \"FAILED\";reset}
+#send \"0101\\r\"
+#expect \"name: Angel Perez, semestre: 6\" {foreground green; puts \"PASSED\";reset} default {foreground red;puts \"FAILED\";reset}
+" > integrationtest.tcl
+
+chmod 755 integrationtest.tcl
+
 {
+  echo "LIB := \$(shell find ./lib -name '*.o')"
   echo "all:"
   # Make command complains about spaces :(
   # fix: http://stackoverflow.com/questions/525872/echo-tab-characters-in-bash-script
   # http://stackoverflow.com/questions/525872/echo-tab-characters-in-bash-script
   echo -e "\t gcc -c ${MODULE_NAME}.c"
   echo -e "\t gcc -c main.c"
-  echo -e "\t gcc -o main ${MODULE_NAME}.o main.o"
+  echo -e "\t gcc -o ${MODULE_NAME}.exe ${MODULE_NAME}.o main.o \$(LIB)"
   echo ""
 
   echo "test_${MODULE_NAME}: clean"
@@ -124,18 +151,26 @@ int main(int argc, char **argv) {
   echo -e "\t rm *.out *.o *.exe || exit 0"
   echo ""
 
-  echo "run:"
+  echo "${MODULE_NAME}: clean"
   echo -e "\t gcc -c ${MODULE_NAME}.c"
   echo -e "\t gcc -c main.c"
-  echo -e "\t gcc -o main.exe ${MODULE_NAME}.o main.o"
-  echo -e "\t ./main"
+  echo -e "\t gcc -o ${MODULE_NAME}.exe ${MODULE_NAME}.o main.o \$(LIB)"
+  echo ""
+ 
+  echo  "run: ${MODULE_NAME}"
+  echo -e "\t ./${MODULE_NAME}.exe"
+  echo ""
+
+  echo -e "runtest: ${MODULE_NAME}"
+  echo -e "\t ./integrationtest.tcl ./${MODULE_NAME}.exe"
+  echo ""
 
 } > Makefile
 
 {
   echo '/* file: minunit.h */'
   echo '#define muAssert(message, test) do { if (!(test)) return message; } while (0)'
-  echo '#define muRunTest(test) do { char *message = test(); tests_run++; \'
+  echo '#define muRunTest(test) do { char *message = test(); testsRun++; \'
   echo 'if (message) return message; } while (0)'
   echo 'extern int testsRun;'
 } >  minunit.h
