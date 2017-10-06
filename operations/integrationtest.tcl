@@ -12,11 +12,11 @@ proc reset {} {exec tput sgr0 > /dev/tty}
 #Put your test case here
 eval spawn [lrange $argv 0 end]
 
-expect "Cual es la operacion" {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
-send "resta\r"
-send "10\r"
+expect "What is the operation" {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
+send "subtract\r"
 send "5\r"
-expect "5" {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
+send "2\r"
+expect "3" {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
 #expect "What is the id:" {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
 #send "0101\r"
 #expect "name: Angel Perez, semestre: 6" {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
