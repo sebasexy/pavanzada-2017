@@ -3,6 +3,20 @@
 #include <string.h>
 #include "keyboard.h"
 
+/*
+* @param
+*   char ** words
+*   int wordSize
+* keyboardRoom
+*  From the array of words, it iterates through the string
+* There are rows of the keyboard defined with the elements in it
+* It compares each string with those rows, and increases the counter according to the number of times it has a letter from each keyboard Row
+* if at the end of the word, the count of a row is equal to the size of the word, this means it only uses letter from a single row, then saves that string to the result
+* @return
+*   char **
+*   Returns an array with the list of words that can be written on a single line from the keyboard
+*/
+
 char** keyboardRoom(char** words, int wordsSize){
   int i;
   int j;
