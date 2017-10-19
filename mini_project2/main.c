@@ -18,11 +18,14 @@ int sumTwoIntegers(int x, int y){
   if(x == 0){
     return y;
   }
-  else{
-    int carry = x&y;
-    int sum = x^y;
-    return sumTwoIntegers(carry << 1, sum);
+
+  if(y == 0){
+    return x;
   }
+
+  int carry = x&y;
+  int sum = x^y;
+  return sumTwoIntegers(carry << 1, sum);
 }
 
 int main(int argc, char **argv) {

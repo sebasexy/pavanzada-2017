@@ -13,16 +13,19 @@ proc reset {} {exec tput sgr0 > /dev/tty}
 eval spawn [lrange $argv 0 end]
 
 expect "Give me the first int: " {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
-send "999\r"
+send "0\r"
 expect "Give me the second int: "
-send "128\r"
-expect "The sum of 999 and 128 is: 1127"
+send "1\r"
+expect "The sum of 0 and 1 is: 1"
 
-#expect "Give me the first int: " {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
-#send "900\r"
-#expect "Give me the second int: "
-#send "11\r"
-#expect "The sum of 900 and 11 is: 911"
+#Put your test case here
+eval spawn [lrange $argv 0 end]
+
+expect "Give me the first int: " {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
+send "1\r"
+expect "Give me the second int: "
+send "0\r"
+expect "The sum of 1 and 0 is: 1"
 
 #expect "Give me the first int: " {foreground green; puts "PASSED";reset} default {foreground red;puts "FAILED";reset}
 #send "666\r"
