@@ -9,6 +9,7 @@
 int unsigned total;
 sem_t sem1;
 sem_t forks[NUM_THREADS];
+sem_t chairs;
 
 void thinking(int n){
   sleep(rand()%n);
@@ -23,11 +24,16 @@ void *lifeStyle(void *threadid){
   while(1){
     thinking(3);
     printf("I am phil %lu, I am hungry\n", tid);
+
     sem_wait(&forks[tid]);
     sem_wait(&forks[(tid+1)%NUM_THREADS]);
+    sem_wait(&chairs);
+
+
     eating(4);
     sem_post(&forks[tid]);
     sem_post(&forks[(tid+1)%NUM_THREADS]);
+    sem_post(&chairs);
     printf("I am phil %lu, I am thinking\n", tid);
   }
 
@@ -58,6 +64,10 @@ int main (int argc, char *argv[])
    long t;
    //total = 0;
    //sem_init(&sem1, 1, 1);
+   for(t = 0; t < NUM_THREADS; t++){
+     sem_init(&forks[t],0,1);
+   }
+   sem_init(&chairs,0,NUM_THREADS/2);
    for(t=0; t<NUM_THREADS; t++){
       printf("In main: creating thread %ld\n", t);
       rc = pthread_create(&threads[t], NULL, lifeStyle, (void *)t);
