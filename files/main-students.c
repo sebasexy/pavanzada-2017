@@ -10,6 +10,58 @@ typedef struct s{
 int main(int argc, char **argv){
   assert(argc == 3);
   FILE *myFile;
+
+  myFile = fopen(argv[1], "a+b");
+  assert(myFile != NULL);
+
+  Student myStudent;
+  long offset = sizeof(Student) * record;
+
+  printf("New name: ");
+  char newName[100];
+  scanf("%s", newName);
+  printf("New id: ");
+  int newId;
+  scanf("%d", newId);
+  fseek(myFile, offset, SEEK_SET);
+  fwrite(&myStudent, sizeof(Student), 1, myFile);
+  fclose(myFile);
+  return 0;
+}
+
+/*
+int main(int argc, char **argv){
+  assert(argc == 3);
+  FILE *myFile;
+
+  myFile = fopen(argv[1], "r+b");
+  assert(myFile != NULL);
+
+  Student myStudent;
+  int record = atoi(argv[2]);
+  long offset = sizeof(Student) * record;
+  fseek(myFile, offset, SEEK_SET);
+  fread(&myStudent, sizeof(Student),1,myFile);
+  fclose(myFile);
+  printf("Student at %d i: name %s, id %d \n", record, myStudent.name, myStudent.id);
+  printf("New name: ");
+  char newName[100];
+  scanf("%s", newName);
+  printf("New id: ");
+  int newId;
+  scanf("%d", newId);
+
+  fseek(myFile, offset, SEEK_SET);
+  fwrite(&myStudent, sizeof(Student), 1, myFile);
+  fclose(myFile);
+
+  return 0;
+}
+*/
+/*
+int main(int argc, char **argv){
+  assert(argc == 3);
+  FILE *myFile;
   myFile = fopen(argv[1], "rb");
   assert(myFile != NULL);
 
@@ -22,6 +74,7 @@ int main(int argc, char **argv){
   printf("Student at %d i: name %s, id %d \n", record, myStudent.name, myStudent.id);
   return 0;
 }
+*/
 
 /*
 int main(int argc, char **argv){
