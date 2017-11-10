@@ -1,0 +1,4 @@
+temp 40
+temp 24
+temp 25
+temp 23
